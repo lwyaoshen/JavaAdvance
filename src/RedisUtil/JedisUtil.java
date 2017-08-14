@@ -2,15 +2,10 @@ package RedisUtil;
 /**
  * 
  * @ClassName:       JedisUtil
- * @Description:    ²Ù×÷RedisµÄ°ïÖúÀà
+ * @Description:    æ“ä½œRedisçš„å¸®åŠ©ç±»
  * @author:         yangsheng
  */
 package cn.com.pioneercloud.infra.common.cache;
-
-
-import cn.com.pioneercloud.infra.common.util.ClassLoaderUtil;
-import cn.com.pioneercloud.infra.common.util.IPUtil;
-import cn.com.pioneercloud.infra.common.util.StringUtil;
 import com.google.common.collect.Maps;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,7 +30,7 @@ import java.util.Properties;
 import java.util.Set;
 
 /**
- * Óëspring½áºÏ°æ±¾ Created by qct on 2015/7/7.
+ * ä¸springç»“åˆç‰ˆæœ¬ Created by qct on 2015/7/7.
  */
 public class JedisUtil {
     private static Logger logger = LoggerFactory.getLogger(JedisUtil.class);
@@ -105,11 +100,11 @@ public class JedisUtil {
 
 
     /**
-     * ÉèÖÃÒ»¸ökeyµÄ¹ıÆÚÊ±¼ä£¨µ¥Î»£ºÃë£©
+     * è®¾ç½®ä¸€ä¸ªkeyçš„è¿‡æœŸæ—¶é—´ï¼ˆå•ä½ï¼šç§’ï¼‰
      *
-     * @param key     keyÖµ
-     * @param seconds ¶àÉÙÃëºó¹ıÆÚ
-     * @return 1£ºÉèÖÃÁË¹ıÆÚÊ±¼ä 0£ºÃ»ÓĞÉèÖÃ¹ıÆÚÊ±¼ä/²»ÄÜÉèÖÃ¹ıÆÚÊ±¼ä
+     * @param key     keyå€¼
+     * @param seconds å¤šå°‘ç§’åè¿‡æœŸ
+     * @return 1ï¼šè®¾ç½®äº†è¿‡æœŸæ—¶é—´ 0ï¼šæ²¡æœ‰è®¾ç½®è¿‡æœŸæ—¶é—´/ä¸èƒ½è®¾ç½®è¿‡æœŸæ—¶é—´
      */
     public long expire(String key, int seconds) {
         if (key == null || key.equals("")) {
@@ -130,11 +125,11 @@ public class JedisUtil {
     }
 
     /**
-     * ÉèÖÃÒ»¸ökeyÔÚÄ³¸öÊ±¼äµã¹ıÆÚ
+     * è®¾ç½®ä¸€ä¸ªkeyåœ¨æŸä¸ªæ—¶é—´ç‚¹è¿‡æœŸ
      *
-     * @param key           keyÖµ
-     * @param unixTimestamp unixÊ±¼ä´Á£¬´Ó1970-01-01 00:00:00¿ªÊ¼µ½ÏÖÔÚµÄÃëÊı
-     * @return 1£ºÉèÖÃÁË¹ıÆÚÊ±¼ä 0£ºÃ»ÓĞÉèÖÃ¹ıÆÚÊ±¼ä/²»ÄÜÉèÖÃ¹ıÆÚÊ±¼ä
+     * @param key           keyå€¼
+     * @param unixTimestamp unixæ—¶é—´æˆ³ï¼Œä»1970-01-01 00:00:00å¼€å§‹åˆ°ç°åœ¨çš„ç§’æ•°
+     * @return 1ï¼šè®¾ç½®äº†è¿‡æœŸæ—¶é—´ 0ï¼šæ²¡æœ‰è®¾ç½®è¿‡æœŸæ—¶é—´/ä¸èƒ½è®¾ç½®è¿‡æœŸæ—¶é—´
      */
     public long expireAt(String key, int unixTimestamp) {
         if (key == null || key.equals("")) {
@@ -155,12 +150,12 @@ public class JedisUtil {
     }
 
     /**
-     * ½Ø¶ÏÒ»¸öList
+     * æˆªæ–­ä¸€ä¸ªList
      *
-     * @param key   ÁĞ±íkey
-     * @param start ¿ªÊ¼Î»ÖÃ ´Ó0¿ªÊ¼
-     * @param end   ½áÊøÎ»ÖÃ
-     * @return ×´Ì¬Âë
+     * @param key   åˆ—è¡¨key
+     * @param start å¼€å§‹ä½ç½® ä»0å¼€å§‹
+     * @param end   ç»“æŸä½ç½®
+     * @return çŠ¶æ€ç 
      */
     public String trimList(String key, long start, long end) {
         if (key == null || key.equals("")) {
@@ -171,7 +166,7 @@ public class JedisUtil {
             shardedJedis = shardedJedisPool.getResource();
             return shardedJedis.ltrim(key, start, end);
         } catch (Exception ex) {
-            logger.error("LTRIM ³ö´í[key=" + key + " start=" + start + " end=" + end + "]" + ex.getMessage(), ex);
+            logger.error("LTRIM å‡ºé”™[key=" + key + " start=" + start + " end=" + end + "]" + ex.getMessage(), ex);
             returnBrokenResource(shardedJedis);
         } finally {
             returnResource(shardedJedis);
@@ -180,7 +175,7 @@ public class JedisUtil {
     }
 
     /**
-     * ¼ì²éSet³¤¶È
+     * æ£€æŸ¥Seté•¿åº¦
      */
     public long countSet(String key) {
         if (key == null) {
@@ -200,10 +195,10 @@ public class JedisUtil {
     }
 
     /**
-     * Ìí¼Óµ½SetÖĞ£¨Í¬Ê±ÉèÖÃ¹ıÆÚÊ±¼ä£©
+     * æ·»åŠ åˆ°Setä¸­ï¼ˆåŒæ—¶è®¾ç½®è¿‡æœŸæ—¶é—´ï¼‰
      *
-     * @param key     keyÖµ
-     * @param seconds ¹ıÆÚÊ±¼ä µ¥Î»s
+     * @param key     keyå€¼
+     * @param seconds è¿‡æœŸæ—¶é—´ å•ä½s
      */
     public boolean addSet(String key, int seconds, String... value) {
         boolean result = addSet(key, value);
@@ -215,7 +210,7 @@ public class JedisUtil {
     }
 
     /**
-     * Ìí¼Óµ½SetÖĞ
+     * æ·»åŠ åˆ°Setä¸­
      */
     public boolean addSet(String key, String... value) {
         if (key == null || value == null) {
@@ -236,7 +231,7 @@ public class JedisUtil {
     }
 
     /**
-     * @return ÅĞ¶ÏÖµÊÇ·ñ°üº¬ÔÚsetÖĞ
+     * @return åˆ¤æ–­å€¼æ˜¯å¦åŒ…å«åœ¨setä¸­
      */
     public boolean containsInSet(String key, String value) {
         if (key == null || value == null) {
@@ -256,7 +251,7 @@ public class JedisUtil {
     }
 
     /**
-     * »ñÈ¡Set
+     * è·å–Set
      */
     public Set<String> getSet(String key) {
         ShardedJedis shardedJedis = null;
@@ -273,7 +268,7 @@ public class JedisUtil {
     }
 
     /**
-     * ´ÓsetÖĞÉ¾³ıvalue
+     * ä»setä¸­åˆ é™¤value
      */
     public boolean removeSetValue(String key, String... value) {
         ShardedJedis shardedJedis = null;
@@ -291,18 +286,18 @@ public class JedisUtil {
     }
 
     /**
-     * ´ÓlistÖĞÉ¾³ıvalue Ä¬ÈÏcount 1
+     * ä»listä¸­åˆ é™¤value é»˜è®¤count 1
      *
-     * @param values Öµlist
+     * @param values å€¼list
      */
     public int removeListValue(String key, List<String> values) {
         return removeListValue(key, 1, values);
     }
 
     /**
-     * ´ÓlistÖĞÉ¾³ıvalue
+     * ä»listä¸­åˆ é™¤value
      *
-     * @param values Öµlist
+     * @param values å€¼list
      */
     public int removeListValue(String key, long count, List<String> values) {
         int result = 0;
@@ -317,9 +312,9 @@ public class JedisUtil {
     }
 
     /**
-     * ´ÓlistÖĞÉ¾³ıvalue
+     * ä»listä¸­åˆ é™¤value
      *
-     * @param count ÒªÉ¾³ı¸öÊı
+     * @param count è¦åˆ é™¤ä¸ªæ•°
      */
     public boolean removeListValue(String key, long count, String value) {
         ShardedJedis shardedJedis = null;
@@ -337,10 +332,10 @@ public class JedisUtil {
     }
 
     /**
-     * ½ØÈ¡List
+     * æˆªå–List
      *
-     * @param start ÆğÊ¼Î»ÖÃ
-     * @param end   ½áÊøÎ»ÖÃ
+     * @param start èµ·å§‹ä½ç½®
+     * @param end   ç»“æŸä½ç½®
      */
     public List<String> rangeList(String key, long start, long end) {
         if (key == null || key.equals("")) {
@@ -351,7 +346,7 @@ public class JedisUtil {
             shardedJedis = shardedJedisPool.getResource();
             return shardedJedis.lrange(key, start, end);
         } catch (Exception ex) {
-            logger.error("rangeList ³ö´í[key=" + key + " start=" + start + " end=" + end + "]" + ex.getMessage(), ex);
+            logger.error("rangeList å‡ºé”™[key=" + key + " start=" + start + " end=" + end + "]" + ex.getMessage(), ex);
             returnBrokenResource(shardedJedis);
         } finally {
             returnResource(shardedJedis);
@@ -360,7 +355,7 @@ public class JedisUtil {
     }
 
     /**
-     * ¼ì²éList³¤¶È
+     * æ£€æŸ¥Listé•¿åº¦
      */
     public long countList(String key) {
         if (key == null) {
@@ -380,10 +375,10 @@ public class JedisUtil {
     }
 
     /**
-     * Ìí¼Óµ½ListÖĞ£¨Í¬Ê±ÉèÖÃ¹ıÆÚÊ±¼ä£©
+     * æ·»åŠ åˆ°Listä¸­ï¼ˆåŒæ—¶è®¾ç½®è¿‡æœŸæ—¶é—´ï¼‰
      *
-     * @param key     keyÖµ
-     * @param seconds ¹ıÆÚÊ±¼ä µ¥Î»s
+     * @param key     keyå€¼
+     * @param seconds è¿‡æœŸæ—¶é—´ å•ä½s
      */
     public boolean addList(String key, int seconds, String... value) {
         boolean result = addList(key, value);
@@ -413,7 +408,7 @@ public class JedisUtil {
     }
 
     /**
-     * Ìí¼Óµ½List
+     * æ·»åŠ åˆ°List
      */
     public boolean addList(String key, String... value) {
         if (key == null || value == null) {
@@ -435,7 +430,7 @@ public class JedisUtil {
 
 
     /**
-     * Ìí¼Óµ½List
+     * æ·»åŠ åˆ°List
      */
     public boolean addList(String key, String value,int expire) {
         if (key == null || value == null) {
@@ -458,7 +453,7 @@ public class JedisUtil {
     }
 
     /**
-     * Ìí¼Óµ½List(Ö»ĞÂÔö)
+     * æ·»åŠ åˆ°List(åªæ–°å¢)
      */
     public boolean addList(String key, List<String> list) {
         if (key == null || list == null || list.size() == 0) {
@@ -471,7 +466,7 @@ public class JedisUtil {
     }
 
     /**
-     * »ñÈ¡List
+     * è·å–List
      */
     public List<String> getList(String key) {
         ShardedJedis shardedJedis = null;
@@ -502,10 +497,10 @@ public class JedisUtil {
     }
 
     /**
-     * ÉèÖÃHashSet¶ÔÏó
+     * è®¾ç½®HashSetå¯¹è±¡
      *
-     * @param domain ÓòÃû
-     * @param key    ¼üÖµ
+     * @param domain åŸŸå
+     * @param key    é”®å€¼
      * @param value  Json String or String value
      */
     public boolean setHSet(String domain, String key, String value) {
@@ -527,10 +522,10 @@ public class JedisUtil {
     }
 
     /**
-     * »ñµÃHashSet¶ÔÏó
+     * è·å¾—HashSetå¯¹è±¡
      *
-     * @param domain ÓòÃû
-     * @param key    ¼üÖµ
+     * @param domain åŸŸå
+     * @param key    é”®å€¼
      * @return Json String or String value
      */
     public String getHSet(String domain, String key) {
@@ -548,11 +543,11 @@ public class JedisUtil {
     }
 
     /**
-     * É¾³ıHashSet¶ÔÏó
+     * åˆ é™¤HashSetå¯¹è±¡
      *
-     * @param domain ÓòÃû
-     * @param key    ¼üÖµ
-     * @return É¾³ıµÄ¼ÇÂ¼Êı
+     * @param domain åŸŸå
+     * @param key    é”®å€¼
+     * @return åˆ é™¤çš„è®°å½•æ•°
      */
     public long delHSet(String domain, String key) {
         ShardedJedis shardedJedis = null;
@@ -570,11 +565,11 @@ public class JedisUtil {
     }
 
     /**
-     * É¾³ıHashSet¶ÔÏó
+     * åˆ é™¤HashSetå¯¹è±¡
      *
-     * @param domain ÓòÃû
-     * @param key    ¼üÖµ
-     * @return É¾³ıµÄ¼ÇÂ¼Êı
+     * @param domain åŸŸå
+     * @param key    é”®å€¼
+     * @return åˆ é™¤çš„è®°å½•æ•°
      */
     public long delHSet(String domain, String... key) {
         ShardedJedis shardedJedis = null;
@@ -592,10 +587,10 @@ public class JedisUtil {
     }
 
     /**
-     * ÅĞ¶ÏkeyÊÇ·ñ´æÔÚ
+     * åˆ¤æ–­keyæ˜¯å¦å­˜åœ¨
      *
-     * @param domain ÓòÃû
-     * @param key    ¼üÖµ
+     * @param domain åŸŸå
+     * @param key    é”®å€¼
      */
     public boolean existsHSet(String domain, String key) {
         ShardedJedis shardedJedis = null;
@@ -613,9 +608,9 @@ public class JedisUtil {
     }
 
     /**
-     * È«¾ÖÉ¨Ãèhset
+     * å…¨å±€æ‰«æhset
      *
-     * @param match fieldÆ¥ÅäÄ£Ê½
+     * @param match fieldåŒ¹é…æ¨¡å¼
      */
     public List<Map.Entry<String, String>> scanHSet(String domain, String match) {
         ShardedJedis shardedJedis = null;
@@ -643,7 +638,7 @@ public class JedisUtil {
     }
 
     /**
-     * ·µ»Ø domain Ö¸¶¨µÄ¹şÏ£¼¯ÖĞËùÓĞ×Ö¶ÎµÄvalueÖµ
+     * è¿”å› domain æŒ‡å®šçš„å“ˆå¸Œé›†ä¸­æ‰€æœ‰å­—æ®µçš„valueå€¼
      */
     public List<String> hvals(String domain) {
         ShardedJedis shardedJedis = null;
@@ -661,9 +656,9 @@ public class JedisUtil {
     }
 
     /**
-     * ·µ»Ø¶ÔÓ¦keyµÄËùÓĞhash×Ö¶ÎµÄÖµ
+     * è¿”å›å¯¹åº”keyçš„æ‰€æœ‰hashå­—æ®µçš„å€¼
      *
-     * @param key Ö¸¶¨µÄkey
+     * @param key æŒ‡å®šçš„key
      */
     public Map<String, String> hgetall(String key) {
         ShardedJedis shardedJedis = null;
@@ -681,11 +676,11 @@ public class JedisUtil {
     }
 
     /**
-     * ·µ»Ø¶ÔÓ¦keyµÄ×Ö¶ÎÖµ
+     * è¿”å›å¯¹åº”keyçš„å­—æ®µå€¼
      *
-     * @param key   ¼ü
-     * @param field ×Ö¶Î
-     * @return ¶ÔÓ¦keyµÄ×Ö¶ÎÖµ
+     * @param key   é”®
+     * @param field å­—æ®µ
+     * @return å¯¹åº”keyçš„å­—æ®µå€¼
      */
     public String hget(String key, String field) {
         ShardedJedis shardedJedis = null;
@@ -703,11 +698,11 @@ public class JedisUtil {
     }
 
     /**
-     * ·µ»Ø¶ÔÓ¦keyµÄ×Ö¶ÎÖµ
+     * è¿”å›å¯¹åº”keyçš„å­—æ®µå€¼
      *
-     * @param key   ¼ü
-     * @param field ×Ö¶Î
-     * @return ¶ÔÓ¦keyµÄ×Ö¶ÎÖµ
+     * @param key   é”®
+     * @param field å­—æ®µ
+     * @return å¯¹åº”keyçš„å­—æ®µå€¼
      */
     public byte[] hget(byte[] key, byte[] field) {
         ShardedJedis shardedJedis = null;
@@ -726,12 +721,12 @@ public class JedisUtil {
     }
 
     /**
-     * ÉèÖÃhashÖĞ¶ÔÓ¦×Ö¶ÎµÄÖµ
+     * è®¾ç½®hashä¸­å¯¹åº”å­—æ®µçš„å€¼
      *
-     * @param key   ¼ü
-     * @param field ×Ö¶Î
-     * @param value Öµ
-     * @return <p>-1:²Ù×÷Ê§°Ü <p>0:Èç¹ûfieldÔ­À´ÔÚmapÀïÃæÒÑ¾­´æÔÚ <p>1:Èç¹ûfieldÊÇÒ»¸öĞÂµÄ×Ö¶Î
+     * @param key   é”®
+     * @param field å­—æ®µ
+     * @param value å€¼
+     * @return <p>-1:æ“ä½œå¤±è´¥ <p>0:å¦‚æœfieldåŸæ¥åœ¨mapé‡Œé¢å·²ç»å­˜åœ¨ <p>1:å¦‚æœfieldæ˜¯ä¸€ä¸ªæ–°çš„å­—æ®µ
      */
     public long hset(String key, String field, String value, int expire) {
         ShardedJedis shardedJedis = null;
@@ -752,11 +747,11 @@ public class JedisUtil {
     }
 
     /**
-     * ÉèÖÃhashÖĞ¶ÔÓ¦×Ö¶ÎµÄÖµ
+     * è®¾ç½®hashä¸­å¯¹åº”å­—æ®µçš„å€¼
      *
-     * @param key   ¼ü
-     * @param field ×Ö¶Î
-     * @return <p>-1:²Ù×÷Ê§°Ü <p>0:Èç¹ûfieldÔ­À´ÔÚmapÀïÃæÒÑ¾­´æÔÚ <p>1:Èç¹ûfieldÊÇÒ»¸öĞÂµÄ×Ö¶Î
+     * @param key   é”®
+     * @param field å­—æ®µ
+     * @return <p>-1:æ“ä½œå¤±è´¥ <p>0:å¦‚æœfieldåŸæ¥åœ¨mapé‡Œé¢å·²ç»å­˜åœ¨ <p>1:å¦‚æœfieldæ˜¯ä¸€ä¸ªæ–°çš„å­—æ®µ
      */
     public long hdel(String key, String field) {
         ShardedJedis shardedJedis = null;
@@ -774,12 +769,12 @@ public class JedisUtil {
     }
 
     /**
-     * ÉèÖÃhashÖĞ¶ÔÓ¦×Ö¶ÎµÄÖµ
+     * è®¾ç½®hashä¸­å¯¹åº”å­—æ®µçš„å€¼
      *
-     * @param key   ¼ü
-     * @param field ×Ö¶Î
-     * @param value Öµ
-     * @return <p>-1:²Ù×÷Ê§°Ü <p>0:Èç¹ûfieldÔ­À´ÔÚmapÀïÃæÒÑ¾­´æÔÚ <p>1:Èç¹ûfieldÊÇÒ»¸öĞÂµÄ×Ö¶Î
+     * @param key   é”®
+     * @param field å­—æ®µ
+     * @param value å€¼
+     * @return <p>-1:æ“ä½œå¤±è´¥ <p>0:å¦‚æœfieldåŸæ¥åœ¨mapé‡Œé¢å·²ç»å­˜åœ¨ <p>1:å¦‚æœfieldæ˜¯ä¸€ä¸ªæ–°çš„å­—æ®µ
      */
     public long hset( byte[] key, byte[] field, byte[] value, int expire) {
         ShardedJedis shardedJedis = null;
@@ -800,12 +795,12 @@ public class JedisUtil {
     }
 
     /**
-     * ÉèÖÃhashÖĞ¶ÔÓ¦×Ö¶ÎµÄÖµ
+     * è®¾ç½®hashä¸­å¯¹åº”å­—æ®µçš„å€¼
      *
-     * @param key   ¼ü
-     * @param field ×Ö¶Î
-     * @param value Öµ
-     * @return <p>-1:²Ù×÷Ê§°Ü <p>0:Èç¹ûfieldÔ­À´ÔÚmapÀïÃæÒÑ¾­´æÔÚ <p>1:Èç¹ûfieldÊÇÒ»¸öĞÂµÄ×Ö¶Î
+     * @param key   é”®
+     * @param field å­—æ®µ
+     * @param value å€¼
+     * @return <p>-1:æ“ä½œå¤±è´¥ <p>0:å¦‚æœfieldåŸæ¥åœ¨mapé‡Œé¢å·²ç»å­˜åœ¨ <p>1:å¦‚æœfieldæ˜¯ä¸€ä¸ªæ–°çš„å­—æ®µ
      */
     public long hset(String key, String field, String value) {
         return hset(key, field, value, -1);
@@ -849,7 +844,7 @@ public class JedisUtil {
     }
 
     /**
-     * ·µ»Ø domain Ö¸¶¨µÄ¹şÏ£¼¯ÖĞËùÓĞ×Ö¶ÎµÄkeyÖµ
+     * è¿”å› domain æŒ‡å®šçš„å“ˆå¸Œé›†ä¸­æ‰€æœ‰å­—æ®µçš„keyå€¼
      */
     public Set<String> hkeys(String domain) {
         ShardedJedis shardedJedis = null;
@@ -867,7 +862,7 @@ public class JedisUtil {
     }
 
     /**
-     * ·µ»Ø domain Ö¸¶¨µÄ¹şÏ£keyÖµ×ÜÊı
+     * è¿”å› domain æŒ‡å®šçš„å“ˆå¸Œkeyå€¼æ€»æ•°
      */
     public long lenHset(String domain) {
         ShardedJedis shardedJedis = null;
@@ -885,7 +880,7 @@ public class JedisUtil {
     }
 
     /**
-     * ÉèÖÃÅÅĞò¼¯ºÏ
+     * è®¾ç½®æ’åºé›†åˆ
      */
     public boolean setSortedSet(String key, long score, String value) {
         ShardedJedis shardedJedis = null;
@@ -903,7 +898,7 @@ public class JedisUtil {
     }
 
     /**
-     * »ñµÃÅÅĞò¼¯ºÏ
+     * è·å¾—æ’åºé›†åˆ
      */
     public Set<String> getSoredSet(String key, long startScore, long endScore, boolean orderByDesc) {
         ShardedJedis shardedJedis = null;
@@ -924,7 +919,7 @@ public class JedisUtil {
     }
 
     /**
-     * ¼ÆËãÅÅĞò³¤¶È
+     * è®¡ç®—æ’åºé•¿åº¦
      */
     public long countSoredSet(String key, long startScore, long endScore) {
         ShardedJedis shardedJedis = null;
@@ -942,7 +937,7 @@ public class JedisUtil {
     }
 
     /**
-     * É¾³ıÅÅĞò¼¯ºÏ
+     * åˆ é™¤æ’åºé›†åˆ
      */
     public boolean delSortedSet(String key, String value) {
         ShardedJedis shardedJedis = null;
@@ -960,7 +955,7 @@ public class JedisUtil {
     }
 
     /**
-     * »ñµÃÅÅĞò¼¯ºÏ
+     * è·å¾—æ’åºé›†åˆ
      */
     public Set<String> getSoredSetByRange(String key, int startRange, int endRange, boolean orderByDesc) {
         ShardedJedis shardedJedis = null;
@@ -981,7 +976,7 @@ public class JedisUtil {
     }
 
     /**
-     * »ñµÃÅÅĞò´ò·Ö
+     * è·å¾—æ’åºæ‰“åˆ†
      */
     public Double getScore(String key, String member) {
         ShardedJedis shardedJedis = null;
