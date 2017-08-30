@@ -13,7 +13,7 @@ import Annotation.MethodType.MethodTypeEnum;
 //可以通过反射 获取类的信息之后 获取得到这个注解的值  
 @UserNameAnnotation(value = "initphp")   
 public class User {  
-  
+	@FieldAnnotation(value="zhuli")  
     private String userName;  
   
     
